@@ -1,5 +1,8 @@
-// tutorial https://youtu.be/WnWGO-tLtLA
-//use std::env::Args;
+// tutorial https://youtu.be/WnWGO-tLtLA  
+// I didn't get it and probably should return to this after doing more beginner stuff and reading docs
+//use std::env::Args;   ???
+
+
 use std::collections::HashMap;
 
 fn main() {
@@ -8,15 +11,20 @@ fn main() {
     let value = argys.next().unwrap();
     println!("The key is '{}' and the value is '{}'", key, value);
     
-    let database = Database::new().expect("create db failed");
+    let mut database = Database::new().expect("create db failed");
+    database.insert(key.to_uppercase(), value.clone());
     database.insert(key, value);
-    database.insert(key.to_uppercase(), value);
+    match database.flush() {
+        Ok(()) => println!("yay"),
+        Err(err) => println!("boo error {}", err),
+    }
 }
 
 
 struct Database { //structs are like JSON?
     map: HashMap<String, String>,
-}  //maps are like JSON
+ }  //maps are like JSON
+
 
 impl Database {
     fn new() -> Result<Database, std::io::Error> {
@@ -39,12 +47,37 @@ impl Database {
         // parse the string
         // populate map
         Ok(Database {
-            map: map,
+            map: map, flush: false
         })
     }
 
 
-    fn insert(mut self, key: String, value: String) {
+    fn insert(&mut self, key: String, value: String) {
         self.map.insert(key, value);
     }
+
+
+    fn flush(&self) -> std::io::Result<()> {
+        do_flush(&self);
+    }
+}
+
+impl Drop for Database {
+    fn drop(&mut self) {
+        if !self.flush {
+            let _ = do_flush(self);
+        }
+    }
+}
+
+fn do_flush(database: &Database) -> std::io::Result<()> {
+    println!("do flush called");
+    let mut contents = String::new();
+    for (key, value) in &self.map {
+        contents.push_str(key);
+        contents.push_str('\t');
+        contents.push_str(value);
+        contents.push_str('\n');
+    }
+    std::fs::write("kv.db", contents);
 }
