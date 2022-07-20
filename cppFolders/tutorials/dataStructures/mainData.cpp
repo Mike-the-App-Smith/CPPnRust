@@ -136,18 +136,14 @@ void printLs(Node*n) {
 
 
 //--------------------
-// video 5
-void stacky() {
-    
-};
-
+// video 5 in 3mainData2.cpp
 
 
 // run the program
 int main() {            // VIDEOS
-//    arrRay();         // 2
-//    linkListing();    // 3 & 4
-      stacky();         // 5
+    arrRay();         // 2
+    linkListing();    // 3 & 4
+
 
 
 }
