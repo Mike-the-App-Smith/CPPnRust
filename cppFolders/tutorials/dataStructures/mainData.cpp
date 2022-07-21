@@ -136,14 +136,65 @@ void printLs(Node*n) {
 
 
 //--------------------
-// video 5 in 3mainData2.cpp
+// video 5 in mainData2.cpp
 
+
+// video 8 double linked list
+
+class Nohd {
+public:
+    int value;
+    Nohd* next;
+    Nohd* prev;
+};
+
+void printFwd(Nohd* head) {
+    Nohd* printer = head;
+    while (printer != nullptr) {
+        cout << printer->value << endl;
+        printer = printer->next;
+    };
+};
+
+
+void printBck(Nohd* tail) {
+    Nohd* printer = tail;
+    while (printer != nullptr) {
+        cout << printer->value << endl;
+        printer = printer->prev;
+    };
+};
+
+
+void dblLinkList() {
+    Nohd* head;
+    Nohd* tail;
+
+    Nohd* box = new Nohd();
+    box->value = 0;
+    box->next = nullptr;
+    box->prev = nullptr;
+    head = box;
+    tail = box;
+
+    // add a node
+    box = new Nohd();
+    box->value = 1;
+    box->next = nullptr;
+    box->prev = tail;
+    tail->next = box;
+    tail = box;
+
+    printFwd(head);
+    printBck(tail);
+
+};
 
 // run the program
-int main() {            // VIDEOS
-    arrRay();         // 2
-    linkListing();    // 3 & 4
-
+int main() {          // VIDEOS
+//  arrRay();         // 2
+//  linkListing();    // 3 & 4
+    dblLinkList();    // 8
 
 
 }
